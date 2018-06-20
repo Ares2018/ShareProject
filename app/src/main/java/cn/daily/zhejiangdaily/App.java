@@ -1,16 +1,11 @@
 package cn.daily.zhejiangdaily;
 
 import android.app.Application;
-import android.os.Handler;
 
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
 public class App extends Application {
-
-    private static final String TAG = App.class.getName();
-    public static final String UPDATE_STATUS_ACTION = "com.umeng.message.example.action.UPDATE_STATUS";
-    private Handler handler;
 
     @Override
     public void onCreate() {

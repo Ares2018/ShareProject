@@ -23,36 +23,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ushareplatform);
         setTitle(getResources().getString(R.string.app_name));
         initViews();
-//        findViewById(R.id.home_wechat).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            }
-//        });
-//        findViewById(R.id.wechat_frient).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            }
-//        });
-//        findViewById(R.id.sina).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            }
-//        });
-//        findViewById(R.id.qq).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            }
-//        });
-//        findViewById(R.id.qq_space).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            }
-//        });
-//        findViewById(R.id.home_dingding).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//            }
-//        });
 
         }
 
