@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/setting_title_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:text="设置分享内容"
+                android:textColor="@color/textcolor"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/umeng_divide" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/text_container"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:layout_below="@id/setting_title_rl"
+
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="文本"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/text_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:textColor="@color/log_name" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/netimg_container"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@id/setting_title_rl"
+
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/netimg_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="网络图片"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/netimg_input"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/netimg_title1"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:hint="请输入图片地址以http开头"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+
+            <TextView
+                android:id="@+id/netimg_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/netimg_input"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="缩略图"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/netimg_input_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/netimg_title2"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:hint="不输入默认使用icon"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/localimg_container"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@id/setting_title_rl"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/local_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="本地图片"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/localimg_input"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/local_title1"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:hint="请输入图片本地地址如:/sdcard/xxx.png"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+
+            <TextView
+                android:id="@+id/local_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/localimg_input"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="缩略图"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/localimg_input_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/local_title2"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:hint="不输入默认使用icon"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/net_container"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_below="@id/setting_title_rl"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/url_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="标题"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/net_title"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/url_title1"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+
+            <TextView
+                android:id="@+id/url_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/net_title"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="描述"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/net_desc"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/url_title2"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+
+            <TextView
+                android:id="@+id/url_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/net_desc"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="链接"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/net_url"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/url_title3"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+
+            <TextView
+                android:id="@+id/url_title4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/net_url"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:text="缩略图"
+                android:textColor="@color/log_name"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/net_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/url_title4"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/um_infodetailbg"
+                android:gravity="start"
+                android:hint="不输入默认使用icon"
+                android:singleLine="true"
+                android:textColor="@color/log_name" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btnContainer"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="56dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/um_push_btn"
+                android:text="发送"
+                android:textColor="@color/log_name" />
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="56dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="16dp"
+                android:layout_toLeftOf="@id/send"
+                android:background="@drawable/um_push_btn"
+                android:text="取消"
+                android:textColor="@color/log_name" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

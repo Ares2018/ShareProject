@@ -1,4 +1,4 @@
-package cn.daily.android;
+package cn.daily.zhejiangdaily;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
