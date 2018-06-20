@@ -12,21 +12,25 @@
     ```
 
 2.本地图片分享
+
     ```
     ShareUtils.shareImageLocal(this, R.drawable.logo, null, share_media, shareListener);
     ```
 
 3.网络图片分享
+
     ```
     String url = "http://stcbeta.8531.cn/assets/20180509/1525829171241_5af24e339949d8745a229fee.jpeg";
     ShareUtils.shareImageNet(this, url, null, share_media, shareListener);
     ```
 
 4.图片分享(Bitmap类型)
+
     ```
     ShareUtils.shareImageNet(this, bitmap, null, share_media, shareListener);
     ```
 5.分享链接(标题,摘要,缩略图及跳转链接信息需要自己构造UMWeb)
+
     ```
     UMWeb web = new UMWeb(Defaultcontent.url);
     web.setTitle("This is web title");
@@ -36,6 +40,7 @@
     ```
 
 6.分享链接(传入url的形式)
+
     ```
     ShareUtils.shareUrl(this,url, title, desc, thumb, share_media, shareListener);
     ```
