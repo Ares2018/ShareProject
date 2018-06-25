@@ -1,6 +1,6 @@
 # 分享组件
 ## 说明
-友盟分享的常用功能进行封装,功能包括分享链接(包括标题,摘要,缩略图),分享纯文本,分享纯本地图片,分享网络图片等,目前使用的是友盟分享最新的版本V6.9.2,其中微博,qq,微信都是使用的V6.9.2精简版的jar包
+友盟分享的常用功能进行封装,功能包括分享链接(包括标题,摘要,缩略图),分享纯文本,分享纯本地图片,分享网络图片等,目前使用的是友盟分享最新的版本V6.9.2,其中微博,qq,微信分享都是使用的V6.9.2精简版的jar包
 
 因为各个客户端分享的UI都不尽相同,这里只是对分享常用的功能进行封装,具体的UI还需要各个客户端自己进行实现
 
@@ -20,7 +20,7 @@
 
 4.图片分享(Bitmap类型)
 
-    ShareUtils.shareImageNet(this, bitmap, null, share_media, shareListener);
+    ShareUtils.shareImageBitmap(this, bitmap, null, share_media, shareListener);
 
 5.分享链接(标题,摘要,缩略图及跳转链接信息需要自己构造UMWeb)
 
