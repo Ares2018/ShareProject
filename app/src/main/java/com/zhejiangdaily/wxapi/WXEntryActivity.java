@@ -1,4 +1,4 @@
-package cn.daily.share.wxapi;
+package com.zhejiangdaily.wxapi;
 
 
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
