@@ -3,6 +3,27 @@
 友盟分享的常用功能进行封装,功能包括分享链接(包括标题,摘要,缩略图),分享纯文本,分享纯本地图片,分享网络图片等,目前使用的是友盟分享最新的版本V6.9.2,其中微博,qq,微信分享都是使用的V6.9.2精简版的jar包,其中demo是使用的浙江新闻相关的配置
 因为各个客户端分享的UI都不尽相同,这里只是对分享常用的功能进行封装,具体的UI还需要各个客户端自己进行实现
 
+## 使用方法
+
+### 添加依赖
+1. 主工程build.gradle添加仓库地址:
+
+	```
+	allprojects {
+	    repositories {
+	        google()
+	        jcenter()
+	        maven { url "http://10.100.62.98:8086/nexus/content/groups/public" }
+	    }
+	}
+	```
+2. 项目工程build.gradle 添加依赖,最新版本请查看 [最新版本](http://10.100.62.98:8086/nexus/#nexus-search;gav~cn.daily.android~share~~~)
+
+	```
+	compile 'cn.daily.android:share:0.0.0.1-SNAPSHOT'
+	```
+
+
 ## 注意点:
 因为友盟分享中钉钉,QQ,微信等的回调Activity的配置都是与应用包名相关的(新浪微博的相关配置因为与包名无关,故已经写到Lib的清单下),故各个客户端还需要在自己的客户端中做相应的处理,处理方式参考[友盟分享集成文档](https://developer.umeng.com/docs/66632/detail/66639)
 
