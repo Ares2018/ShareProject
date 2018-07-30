@@ -1,0 +1,13 @@
+def storeFile = new File("../app/qianming/zhejiangnews.keystore");
+def storePassword = "kIwfs16KsM";
+def keyAlias = "zhejiangnews";
+def keyPassword = "kIwfs16KsM";
+
+ext {
+    localProp = properties
+    signingStoreFile = storeFile
+    signingStorePassword = storePassword
+    signingKeyAlias = keyAlias
+    signingKeyPassword = keyPassword
+    existSignConfig = storeFile != null && storePassword != null && keyAlias != null && keyPassword != null
+}

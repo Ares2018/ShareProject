@@ -10,10 +10,48 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        if (existSignConfig) {
+            release {
+                storeFile file(signingStoreFile)
+                storePassword signingStorePassword
+                keyAlias signingKeyAlias
+                keyPassword signingKeyPassword
+                v2SigningEnabled true
+            }
+        }
+    }
+
+
     buildTypes {
-        release {
+        debug {
+            buildConfigField "boolean", "API_DEBUG", "true"
             minifyEnabled false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (existSignConfig) {
+                signingConfig signingConfigs.release
+            }
+
+            manifestPlaceholders = [
+                    UMENG_APPKEY: "535879d256240b8965030920",
+            ]
+        }
+
+        release {
+            buildConfigField "boolean", "API_DEBUG", "false"
+            minifyEnabled true
+            debuggable false
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (existSignConfig) {
+                signingConfig signingConfigs.release
+            }
+
+            manifestPlaceholders = [
+                    UMENG_APPKEY: "535879d256240b8965030920",
+            ]
         }
     }
 }
@@ -23,7 +61,4 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
