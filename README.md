@@ -139,3 +139,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```java
     ShareUtils.shareUrl(this,url, title, desc, thumb, share_media, shareListener);
 ```
+
+#### 友盟的sdk里面提供了判断应用是否安装的方法,以微信为例:
+```java
+UMShareAPI umShareAPI = UMShareAPI.get(getApplicationContext());
+System.out.println("微信是否安装:" + umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN));
+```
