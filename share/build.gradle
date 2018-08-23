@@ -26,7 +26,6 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'cn.daily.android:analytics:5.4.0.8-SNAPSHOT'
     implementation 'cn.daily.android:commonutils:0.0.5-SNAPSHOT'
     implementation 'com.core.net:net-work:0.0.6'
     api 'com.umeng.sdk:common:latest.integration'
