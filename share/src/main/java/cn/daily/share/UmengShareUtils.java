@@ -11,7 +11,6 @@ import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
 
-import cn.zgy.utils.utils.AppUtils;
 import cn.zgy.utils.utils.ImageUtils;
 import cn.zgy.utils.utils.UIUtils;
 import shareInterface.ShareInstalloutCB;
@@ -92,6 +91,9 @@ final public class UmengShareUtils {
      * @param bean
      */
     private void startSingleShare(UmengShareBean bean) {
+        if (bean == null) {
+            return;
+        }
         if (checkInstall(bean.getPlatform())) {
             return;
         }
@@ -109,6 +111,9 @@ final public class UmengShareUtils {
      * @param bean
      */
     private void startSinglePicShare(final UmengShareBean bean) {
+        if (bean == null) {
+            return;
+        }
         if (checkInstall(bean.getPlatform())) {
             return;
         }
@@ -124,10 +129,13 @@ final public class UmengShareUtils {
      * 视频分享 说明:视频只能使用网络视频
      */
     private void shareVideo(final UmengShareBean bean) {
+        if (bean == null) {
+            return;
+        }
         if (checkInstall(bean.getPlatform())) {
             return;
         }
-        if (bean != null && !TextUtils.isEmpty(bean.getVideourl())) {
+        if (!TextUtils.isEmpty(bean.getVideourl())) {
             UMVideo video = new UMVideo(bean.getVideourl());
             video.setTitle(bean.getTitle());
             video.setDescription(bean.getTextContent());
@@ -143,10 +151,13 @@ final public class UmengShareUtils {
      * 音乐分享 说明:播放链接是指在微信qq分享音乐，是可以在当前聊天界面播放的，要求这个musicurl（播放链接）必须要以.mp3等音乐格式结尾，跳转链接是指点击linkcard之后进行跳转的链接。
      */
     private void shareMusic(final UmengShareBean bean) {
+        if (bean == null) {
+            return;
+        }
         if (checkInstall(bean.getPlatform())) {
             return;
         }
-        if (bean != null && !TextUtils.isEmpty(bean.getMusicurl())) {
+        if (!TextUtils.isEmpty(bean.getMusicurl())) {
             UMusic music = new UMusic(bean.getMusicurl());
             music.setTitle(bean.getTitle());
             music.setDescription(bean.getTextContent());
@@ -222,21 +233,21 @@ final public class UmengShareUtils {
         if (platform == SHARE_MEDIA.WEIXIN || platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
             if (mShareAPI != null && !mShareAPI.isInstall(UIUtils.getActivity(), SHARE_MEDIA.WEIXIN)) {
                 if (shareInstalloutCB != null) {
-                    shareInstalloutCB.showInstallOut();
+                    shareInstalloutCB.showInstallOut(platform);
                 }
                 return false;
             }
         } else if (platform == SHARE_MEDIA.QQ || platform == SHARE_MEDIA.QZONE) {
             if (mShareAPI != null && !mShareAPI.isInstall(UIUtils.getActivity(), SHARE_MEDIA.QQ)) {
                 if (shareInstalloutCB != null) {
-                    shareInstalloutCB.showInstallOut();
+                    shareInstalloutCB.showInstallOut(platform);
                 }
                 return false;
             }
         } else if (platform == SHARE_MEDIA.DINGTALK) {
-            if (!AppUtils.isInstall("com.alibaba.android.rimet")) { // 旧版本使用友盟api存在问题
+            if (mShareAPI != null && !mShareAPI.isInstall(UIUtils.getActivity(), SHARE_MEDIA.DINGTALK)) {
                 if (shareInstalloutCB != null) {
-                    shareInstalloutCB.showInstallOut();
+                    shareInstalloutCB.showInstallOut(platform);
                 }
                 return false;
             }
