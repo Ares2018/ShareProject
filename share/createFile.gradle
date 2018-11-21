@@ -1,0 +1,40 @@
+static def createCallBackActivity(def rootProject) {
+    String packageName = rootProject.ext._packagename
+    File file = new File(rootProject.getRootDir(), "share/src/main/java")
+    String path = packageName.replace(".", "/")
+    File callBackFile = new File(file, path)
+
+    callBackFile.mkdirs()
+    File ddShareFileDir = new File(callBackFile, "ddshare")
+    File wxFileDir = new File(callBackFile, "wxapi")
+    ddShareFileDir.mkdir()
+    wxFileDir.mkdir()
+
+    File ddShare = new File(ddShareFileDir, "DDShareActivity.java")
+    File wxShareFile = new File(wxFileDir, "WXEntryActivity.java")
+    boolean  isddScuucess = ddShare.createNewFile()
+    boolean  iswxScuucess = wxShareFile.createNewFile()
+    if(iswxScuucess){
+        String wxShareActivityContent = "package " + packageName + ".wxapi;\nimport com.umeng.socialize.weixin.view.WXCallbackActivity;\n" +
+                "public class WXEntryActivity extends WXCallbackActivity {\n" +
+                "}"
+
+        FileWriter wxWriter = new FileWriter(wxShareFile);
+        wxWriter.write(wxShareActivityContent)
+        wxWriter.flush()
+        wxWriter.close()
+    }
+    if (isddScuucess){
+        String ddShareActivityContent = "package " + packageName + ".ddshare;\nimport com.umeng.socialize.media.DingCallBack;\n" +
+                "public class DDShareActivity extends DingCallBack {\n" +
+                "}"
+        FileWriter ddWriter = new FileWriter(ddShare);
+        ddWriter.write(ddShareActivityContent)
+        ddWriter.flush()
+        ddWriter.close()
+    }
+}
+
+ext {
+    createCallBackActivity = this.&createCallBackActivity
+}
