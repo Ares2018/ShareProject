@@ -1,16 +1,19 @@
 package cn.daily.zhejiangdaily;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
-public class App extends Application {
+import cn.zgy.utils.utils.UIUtils;
+
+public class App extends MultiDexApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
         //设置LOG开关，默认为false
+        UIUtils.init(this);
         UMConfigure.setLogEnabled(true);
         //初始化组件化基础库, 统计SDK/推送SDK/分享SDK都必须调用此初始化接口
         UMConfigure.init(this, "535879d256240b8965030920", "Umeng", UMConfigure.DEVICE_TYPE_PHONE,

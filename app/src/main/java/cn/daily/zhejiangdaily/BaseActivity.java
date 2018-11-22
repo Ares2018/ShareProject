@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import cn.zgy.utils.utils.AppManager;
+
 
 public abstract class BaseActivity extends FragmentActivity {
     @Override
@@ -18,8 +20,13 @@ public abstract class BaseActivity extends FragmentActivity {
 
         }
         setContentView(getLayout());
-
+        AppManager.get().addActivity(this);
     }
     public abstract int getLayout();
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.get().removeActivity(this);
+    }
 }

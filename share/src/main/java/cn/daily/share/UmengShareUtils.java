@@ -1,7 +1,12 @@
 package cn.daily.share;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.aliya.permission.Permission;
+import com.aliya.permission.PermissionCallback;
+import com.aliya.permission.PermissionManager;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -11,9 +16,12 @@ import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
 
+import java.util.List;
+
+import cn.zgy.utils.utils.CompatibleUtils.EMUIUtils;
 import cn.zgy.utils.utils.ImageUtils;
 import cn.zgy.utils.utils.UIUtils;
-import shareInterface.ShareInstalloutCB;
+import shareInterface.ShareHelpCallBack;
 import shareInterface.ShareResultCB;
 
 /**
@@ -26,14 +34,14 @@ final public class UmengShareUtils {
     private UMShareAPI mShareAPI;
     private UmengShareBean mBean;
     private ShareResultCB shareResultCB;
-    private ShareInstalloutCB shareInstalloutCB;
+    private ShareHelpCallBack shareHelpCallBack;
     private static volatile UmengShareUtils instance = null;
 
 
     private UmengShareUtils() {
         mShareAPI = UMShareAPI.get(UIUtils.getActivity());
         shareResultCB = (ShareResultCB) UIUtils.getActivity();
-        shareInstalloutCB = (ShareInstalloutCB) UIUtils.getActivity();
+        shareHelpCallBack = (ShareHelpCallBack) UIUtils.getActivity();
     }
 
     /**
@@ -86,87 +94,136 @@ final public class UmengShareUtils {
     };
 
     /**
+     * 校验是否需要权限  qq相关需要校验权限
+     *
+     * @param platform
+     * @return true为权限校验通过或不需要权限
+     */
+    private boolean checkPermission(final SHARE_MEDIA platform) {
+        final boolean[] result = {false};
+        if (EMUIUtils.isEMUI() || platform == SHARE_MEDIA.QZONE || platform == SHARE_MEDIA.QQ) {
+            PermissionManager.request(UIUtils.getActivity(), new PermissionCallback() {
+
+                /**
+                 * 全部授予
+                 * @param isAlready 申请之前已全部默认授权
+                 */
+                @Override
+                public void onGranted(boolean isAlready) {
+                    result[0] = true;
+                }
+
+                /**
+                 * 拒绝(至少一个权限拒绝)
+                 *
+                 * @param deniedPermissions   被拒绝权限集合(包括不再询问)
+                 * @param neverAskPermissions 被拒绝不再询问权限集合
+                 */
+                @Override
+                public void onDenied(@NonNull List<String> deniedPermissions, @Nullable List<String> neverAskPermissions) {
+                    if (shareHelpCallBack != null) {
+                        shareHelpCallBack.onPermissonDeny();
+                    }
+                    result[0] = false;
+                }
+            }, Permission.STORAGE_READE, Permission.STORAGE_WRITE);
+        } else {
+            result[0] = true;
+        }
+        return result[0];
+    }
+
+    /**
      * 单个稿件分享
      *
      * @param bean
      */
-    private void startSingleShare(UmengShareBean bean) {
+    public void startSingleShare(UmengShareBean bean) {
         if (bean == null) {
             return;
         }
-        if (checkInstall(bean.getPlatform())) {
+        if (!checkInstall(bean.getPlatform())) {
             return;
         }
-        UMWeb web = setShareUWeb(bean);
-        new ShareAction(UIUtils.getActivity())
-                .setPlatform(bean.getPlatform())
-                .withMedia(web)
-                .setCallback(umShareListener)
-                .share();
+        if (checkPermission(bean.getPlatform())) {
+            UMWeb web = setShareUWeb(bean);
+            new ShareAction(UIUtils.getActivity())
+                    .setPlatform(bean.getPlatform())
+                    .withMedia(web)
+                    .setCallback(umShareListener)
+                    .share();
+        }
     }
+
 
     /**
      * 单个图片分享
      *
      * @param bean
      */
-    private void startSinglePicShare(final UmengShareBean bean) {
+    public void startSinglePicShare(final UmengShareBean bean) {
         if (bean == null) {
             return;
         }
-        if (checkInstall(bean.getPlatform())) {
+        if (!checkInstall(bean.getPlatform())) {
             return;
         }
-        UMImage image = setUMImage(bean);
-        new ShareAction(UIUtils.getActivity())
-                .setPlatform(bean.getPlatform())
-                .withMedia(image)
-                .setCallback(umShareListener)
-                .share();
+        if (checkPermission(bean.getPlatform())) {
+            UMImage image = setUMImage(bean);
+            new ShareAction(UIUtils.getActivity())
+                    .setPlatform(bean.getPlatform())
+                    .withMedia(image)
+                    .setCallback(umShareListener)
+                    .share();
+        }
     }
 
     /**
      * 视频分享 说明:视频只能使用网络视频
      */
-    private void shareVideo(final UmengShareBean bean) {
+    public void shareVideo(final UmengShareBean bean) {
         if (bean == null) {
             return;
         }
-        if (checkInstall(bean.getPlatform())) {
+        if (!checkInstall(bean.getPlatform())) {
             return;
         }
-        if (!TextUtils.isEmpty(bean.getVideourl())) {
-            UMVideo video = new UMVideo(bean.getVideourl());
-            video.setTitle(bean.getTitle());
-            video.setDescription(bean.getTextContent());
-            new ShareAction(UIUtils.getActivity())
-                    .withMedia(video)
-                    .setPlatform(bean.getPlatform())
-                    .setCallback(umShareListener)
-                    .share();
+        if (checkPermission(bean.getPlatform())) {
+            if (!TextUtils.isEmpty(bean.getVideourl())) {
+                UMVideo video = new UMVideo(bean.getVideourl());
+                video.setTitle(bean.getTitle());
+                video.setDescription(bean.getTextContent());
+                new ShareAction(UIUtils.getActivity())
+                        .withMedia(video)
+                        .setPlatform(bean.getPlatform())
+                        .setCallback(umShareListener)
+                        .share();
+            }
         }
     }
 
     /**
      * 音乐分享 说明:播放链接是指在微信qq分享音乐，是可以在当前聊天界面播放的，要求这个musicurl（播放链接）必须要以.mp3等音乐格式结尾，跳转链接是指点击linkcard之后进行跳转的链接。
      */
-    private void shareMusic(final UmengShareBean bean) {
+    public void shareMusic(final UmengShareBean bean) {
         if (bean == null) {
             return;
         }
-        if (checkInstall(bean.getPlatform())) {
+        if (!checkInstall(bean.getPlatform())) {
             return;
         }
-        if (!TextUtils.isEmpty(bean.getMusicurl())) {
-            UMusic music = new UMusic(bean.getMusicurl());
-            music.setTitle(bean.getTitle());
-            music.setDescription(bean.getTextContent());
-            music.setmTargetUrl(bean.getTargetUrl()); // 跳转链接
-            new ShareAction(UIUtils.getActivity())
-                    .withMedia(music)
-                    .setPlatform(bean.getPlatform())
-                    .setCallback(umShareListener)
-                    .share();
+        if (checkPermission(bean.getPlatform())) {
+            if (!TextUtils.isEmpty(bean.getMusicurl())) {
+                UMusic music = new UMusic(bean.getMusicurl());
+                music.setTitle(bean.getTitle());
+                music.setDescription(bean.getTextContent());
+                music.setmTargetUrl(bean.getTargetUrl()); // 跳转链接
+                new ShareAction(UIUtils.getActivity())
+                        .withMedia(music)
+                        .setPlatform(bean.getPlatform())
+                        .setCallback(umShareListener)
+                        .share();
+            }
         }
     }
 
@@ -232,22 +289,22 @@ final public class UmengShareUtils {
     private boolean checkInstall(SHARE_MEDIA platform) {
         if (platform == SHARE_MEDIA.WEIXIN || platform == SHARE_MEDIA.WEIXIN_CIRCLE) {
             if (mShareAPI != null && !mShareAPI.isInstall(UIUtils.getActivity(), SHARE_MEDIA.WEIXIN)) {
-                if (shareInstalloutCB != null) {
-                    shareInstalloutCB.showInstallOut(platform);
+                if (shareHelpCallBack != null) {
+                    shareHelpCallBack.onInstallOut(platform);
                 }
                 return false;
             }
         } else if (platform == SHARE_MEDIA.QQ || platform == SHARE_MEDIA.QZONE) {
             if (mShareAPI != null && !mShareAPI.isInstall(UIUtils.getActivity(), SHARE_MEDIA.QQ)) {
-                if (shareInstalloutCB != null) {
-                    shareInstalloutCB.showInstallOut(platform);
+                if (shareHelpCallBack != null) {
+                    shareHelpCallBack.onInstallOut(platform);
                 }
                 return false;
             }
         } else if (platform == SHARE_MEDIA.DINGTALK) {
             if (mShareAPI != null && !mShareAPI.isInstall(UIUtils.getActivity(), SHARE_MEDIA.DINGTALK)) {
-                if (shareInstalloutCB != null) {
-                    shareInstalloutCB.showInstallOut(platform);
+                if (shareHelpCallBack != null) {
+                    shareHelpCallBack.onInstallOut(platform);
                 }
                 return false;
             }

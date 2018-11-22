@@ -26,6 +26,7 @@ public class StyleUtil {
     public static String EMOJI= "微信表情";
     public static String FILE= "文件";
     public static String MINAPP= "小程序（测试）";
+    public static String UMENGSHAREBEAN= "UmengShareBean";
 
     public static void initStyles(SHARE_MEDIA share_media, ArrayList<String> styles){
         styles.clear();
@@ -35,6 +36,7 @@ public class StyleUtil {
             styles.add(StyleUtil.WEB11);
             styles.add(StyleUtil.MUSIC11);
             styles.add(StyleUtil.VIDEO11);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
         }else if (share_media == SHARE_MEDIA.QZONE){
             styles.add(StyleUtil.TEXT);
             styles.add(StyleUtil.IMAGELOCAL);
@@ -43,6 +45,7 @@ public class StyleUtil {
             styles.add(StyleUtil.WEB11);
             styles.add(StyleUtil.MUSIC11);
             styles.add(StyleUtil.VIDEO11);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
         }else if (share_media == SHARE_MEDIA.SINA){
             styles.add(StyleUtil.TEXT);
             styles.add(StyleUtil.TEXTANDIMAGE);
@@ -50,6 +53,7 @@ public class StyleUtil {
             styles.add(StyleUtil.IMAGEURL);
             styles.add(StyleUtil.MULIMAGE);
             styles.add(StyleUtil.WEB11);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
             //            styles.add(StyleUtil.MUSIC11);
             //            styles.add(StyleUtil.VIDEO11);
         }else if (share_media == SHARE_MEDIA.WEIXIN){
@@ -61,6 +65,7 @@ public class StyleUtil {
             styles.add(StyleUtil.VIDEO11);
             styles.add(StyleUtil.EMOJI);
             styles.add(StyleUtil.MINAPP);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
         }
         else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE){
             styles.add(StyleUtil.TEXT);
@@ -69,6 +74,7 @@ public class StyleUtil {
             styles.add(StyleUtil.WEB11);
             styles.add(StyleUtil.MUSIC11);
             styles.add(StyleUtil.VIDEO11);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
         }
         else if (share_media == SHARE_MEDIA.WEIXIN_FAVORITE){
             styles.add(StyleUtil.TEXT);
@@ -77,6 +83,7 @@ public class StyleUtil {
             styles.add(StyleUtil.WEB11);
             styles.add(StyleUtil.MUSIC11);
             styles.add(StyleUtil.VIDEO11);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
 
         }  else if (share_media == SHARE_MEDIA.TENCENT){
             styles.add(StyleUtil.TEXT);
@@ -85,6 +92,7 @@ public class StyleUtil {
             styles.add(StyleUtil.WEB11);
             styles.add(StyleUtil.MUSIC11);
             styles.add(StyleUtil.VIDEO11);
+            styles.add(StyleUtil.UMENGSHAREBEAN);
         } else if (share_media == SHARE_MEDIA.DOUBAN){
             styles.add(StyleUtil.TEXT);
             styles.add(StyleUtil.TEXTANDIMAGE);

@@ -30,11 +30,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.daily.share.ShareUtils;
+import cn.daily.share.UmengShareBean;
+import cn.daily.share.UmengShareUtils;
 import cn.daily.zhejiangdaily.constant.Defaultcontent;
 import cn.daily.zhejiangdaily.utils.StyleUtil;
 import cn.daily.zhejiangdaily.views.Item;
+import shareInterface.ShareHelpCallBack;
+import shareInterface.ShareResultCB;
 
-public class ShareDetailActivity extends BaseActivity {
+public class ShareDetailActivity extends BaseActivity implements ShareHelpCallBack, ShareResultCB {
 
     public ArrayList<String> styles = new ArrayList<String>();
     private SHARE_MEDIA share_media;
@@ -83,6 +87,8 @@ public class ShareDetailActivity extends BaseActivity {
                         shareEmoji();
                     } else if (style.equals(StyleUtil.FILE)) { // 文件
                         shareFile();
+                    } else if (style.equals(StyleUtil.UMENGSHAREBEAN)) { // UmengShareBean
+                        shareUmengTest();
                     }
                 }
             });
@@ -106,6 +112,12 @@ public class ShareDetailActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void shareUmengTest() {
+        UmengShareBean bean = UmengShareBean.getInstance().setImgUri("http://stcbeta.8531.cn/assets/20180509/1525829171241_5af24e339949d8745a229fee.jpeg").setPlatform(share_media);
+        UmengShareUtils utils = UmengShareUtils.getInstance();
+        utils.startSinglePicShare(bean);
     }
 
     public void shareText() {
@@ -253,5 +265,30 @@ public class ShareDetailActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onInstallOut(SHARE_MEDIA platform) {
+
+    }
+
+    @Override
+    public void onPermissonDeny() {
+        Toast.makeText(this, "友盟分享需要开启权限", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResult(SHARE_MEDIA share_media) {
+
+    }
+
+    @Override
+    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onCancel(SHARE_MEDIA share_media) {
+
     }
 }
