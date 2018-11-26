@@ -50,8 +50,7 @@
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="false"
-            android:screenOrientation="portrait" >
+            android:exported="false">
         </activity>
 
         <activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
@@ -93,13 +92,11 @@
             android:name="${_packagename}.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="${_packagename}.ddshare.DDShareActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
     </application>
