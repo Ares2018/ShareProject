@@ -20,7 +20,6 @@ import com.umeng.socialize.media.UMusic;
 
 import java.util.List;
 
-import cn.zgy.utils.utils.UIUtils;
 import shareInterface.UmengShareCallBack;
 
 
@@ -251,9 +250,12 @@ public class ShareUtils {
         return true;
     }
 
-    public static boolean checkPerssion() {
+    public static boolean checkPerssion(@NonNull Context context) {
+        if (context == null) {
+            return false;
+        }
         final boolean[] result = {false};
-        PermissionManager.request(UIUtils.getActivity(), new PermissionCallback() {
+        PermissionManager.request(context, new PermissionCallback() {
 
             /**
              * 全部授予
@@ -274,7 +276,7 @@ public class ShareUtils {
             public void onDenied(@NonNull List<String> deniedPermissions, @Nullable List<String> neverAskPermissions) {
                 result[0] = false;
             }
-        }, Permission.STORAGE_READE, Permission.STORAGE_WRITE);
+        }, Permission.STORAGE_READ, Permission.STORAGE_WRITE);
         return result[0];
     }
 

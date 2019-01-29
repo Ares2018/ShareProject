@@ -20,7 +20,7 @@
 2. 项目工程build.gradle 添加依赖,最新版本请查看 [最新版本](http://10.100.62.98:8086/nexus/#nexus-search;gav~cn.daily.android~share~~~)
 
 	```
-	compile 'cn.daily.android:share:0.0.0.1-SNAPSHOT'
+	compile 'cn.daily.android:share:0.0.0.2-SNAPSHOT'
 	```
 
 
@@ -104,7 +104,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```
 
 
-#### 分享的使用方法(使用示例见ShareDetailActivity,具体方法见ShareUtils):
+#### 分享的使用方法,分享模块目前提供两种方式供使用方调用,方法一是通过Builder模式调用,方法二是通过静态方法调用,推荐使用方法一 (使用示例见ShareDetailActivity):
 1.纯文本分享
 ```java
     ShareUtils.shareText(this, Defaultcontent.text, share_media, shareListener);

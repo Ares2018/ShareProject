@@ -30,10 +30,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.daily.share.ShareUtils;
+import cn.daily.share.bean.UmengShare;
 import cn.daily.share.bean.UmengShareBean;
 import cn.daily.zhejiangdaily.constant.Defaultcontent;
 import cn.daily.zhejiangdaily.utils.StyleUtil;
 import cn.daily.zhejiangdaily.views.Item;
+import shareInterface.UmengShareCallBack;
 
 public class ShareDetailActivity extends BaseActivity{
 
@@ -118,7 +120,8 @@ public class ShareDetailActivity extends BaseActivity{
     }
 
     public void shareText() {
-        ShareUtils.shareText(this, Defaultcontent.text, share_media, shareListener);
+//        ShareUtils.shareText(this, Defaultcontent.text, share_media, shareListener);
+        new UmengShare.TextBuilder(this).text(Defaultcontent.text).platForm(share_media).callBack(callBack).share();
     }
 
     public void shareImageLocal() {
@@ -127,7 +130,8 @@ public class ShareDetailActivity extends BaseActivity{
 
     public void shareImageNet() {
         String url = "http://stcbeta.8531.cn/assets/20180509/1525829171241_5af24e339949d8745a229fee.jpeg";
-        ShareUtils.shareImageNet(this, url, null, share_media, shareListener);
+//        ShareUtils.shareImageNet(this, url, null, share_media, shareListener);
+        new UmengShare.ImageBuilder(this).image(url).platForm(share_media).callBack(callBack).share();
     }
 
     public void shareUrl() {
@@ -226,6 +230,62 @@ public class ShareDetailActivity extends BaseActivity{
         return R.layout.activity_usharedetail;
     }
 
+    private UmengShareCallBack callBack = new UmengShareCallBack() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            SocializeUtils.safeShowDialog(dialog);
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(ShareDetailActivity.this, "成功了", Toast.LENGTH_LONG).show();
+            SocializeUtils.safeCloseDialog(dialog);
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            SocializeUtils.safeCloseDialog(dialog);
+            Toast.makeText(ShareDetailActivity.this, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            SocializeUtils.safeCloseDialog(dialog);
+            Toast.makeText(ShareDetailActivity.this, "取消了", Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        public void onInstallOut(SHARE_MEDIA platform) {
+
+        }
+
+        @Override
+        public void onPermissonDeny() {
+
+        }
+
+        @Override
+        public void onTextEmpty(SHARE_MEDIA share_media, String text) {
+
+        }
+
+        @Override
+        public void onImageEmpty(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onWebUrlEmpty(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onShareEmpty(SHARE_MEDIA share_media) {
+
+        }
+    };
+
     private UMShareListener shareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA platform) {
@@ -263,5 +323,7 @@ public class ShareDetailActivity extends BaseActivity{
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+
 
 }

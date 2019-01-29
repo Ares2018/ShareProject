@@ -31,7 +31,7 @@ task releaseApk() {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    api 'cn.daily.android:commonutils:0.0.5-SNAPSHOT'
+//    api 'cn.daily.android:commonutils:0.0.5-SNAPSHOT'
     api 'com.umeng.sdk:umeng-common:1.5.4'
     api 'com.umeng.sdk:umeng-share-core:6.9.3'
     api 'com.umeng.sdk:lib-ding-share:6.9.3'
@@ -40,5 +40,5 @@ dependencies {
     api 'com.umeng.sdk:umeng-share-qq-simplify:6.9.3'
     api 'com.umeng.sdk:umeng-share-sina-simplify:6.9.3'
     api 'com.umeng.sdk:umeng-social-tool:6.9.3'
-    api 'com.aliya:permission:0.3.2'
+    api 'com.aliya:permission:0.4.1'
 }

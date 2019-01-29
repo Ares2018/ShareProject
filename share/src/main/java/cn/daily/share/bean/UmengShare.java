@@ -261,7 +261,7 @@ public class UmengShare {
                 return;
             }
             // 权限检测
-            if (!ShareUtils.checkPerssion()) {
+            if (!ShareUtils.checkPerssion(mContext)) {
                 if (mUmengShareCallBack != null) {
                     mUmengShareCallBack.onPermissonDeny();
                 }
