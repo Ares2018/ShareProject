@@ -1,9 +1,16 @@
 package cn.daily.share;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.aliya.permission.Permission;
+import com.aliya.permission.PermissionCallback;
+import com.aliya.permission.PermissionManager;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -11,12 +18,17 @@ import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
 
+import java.util.List;
+
+import cn.zgy.utils.utils.UIUtils;
+import shareInterface.UmengShareCallBack;
+
 
 /**
  * Date: 2018/6/15 上午10:07
  * Email: sisq@8531.cn
  * Author: sishuqun
- * Description: 分享工具类
+ * Description: 分享工具类相关方法
  */
 public class ShareUtils {
 
@@ -219,6 +231,51 @@ public class ShareUtils {
                 .withMedia(imagelocal)
                 .setPlatform(share_media)
                 .setCallback(shareListener).share();
+    }
+
+    /**
+     * 检测应用是否安装
+     */
+    public  static boolean checkInstall(@NonNull Context context, @NonNull SHARE_MEDIA platform, @NonNull UmengShareCallBack callBack) {
+        if (context == null || !(context instanceof Activity)) {
+            return false;
+        }
+        if (platform != SHARE_MEDIA.SINA) {
+            if (!UMShareAPI.get(context).isInstall((Activity) context, platform)) {
+                if (callBack != null) {
+                    callBack.onInstallOut(platform);
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkPerssion() {
+        final boolean[] result = {false};
+        PermissionManager.request(UIUtils.getActivity(), new PermissionCallback() {
+
+            /**
+             * 全部授予
+             * @param isAlready 申请之前已全部默认授权
+             */
+            @Override
+            public void onGranted(boolean isAlready) {
+                result[0] = true;
+            }
+
+            /**
+             * 拒绝(至少一个权限拒绝)
+             *
+             * @param deniedPermissions   被拒绝权限集合(包括不再询问)
+             * @param neverAskPermissions 被拒绝不再询问权限集合
+             */
+            @Override
+            public void onDenied(@NonNull List<String> deniedPermissions, @Nullable List<String> neverAskPermissions) {
+                result[0] = false;
+            }
+        }, Permission.STORAGE_READE, Permission.STORAGE_WRITE);
+        return result[0];
     }
 
 }
