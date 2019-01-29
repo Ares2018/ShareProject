@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.daily.share.ShareUtils;
-import cn.daily.share.bean.UmengShare;
+import cn.daily.share.UmengShare;
 import cn.daily.share.bean.UmengShareBean;
 import cn.daily.zhejiangdaily.constant.Defaultcontent;
 import cn.daily.zhejiangdaily.utils.StyleUtil;

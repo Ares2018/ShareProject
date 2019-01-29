@@ -1,4 +1,4 @@
-package cn.daily.share.bean;
+package cn.daily.share;
 
 import android.Manifest;
 import android.content.Context;
@@ -14,8 +14,6 @@ import com.umeng.socialize.media.UMusic;
 
 import java.io.File;
 
-import cn.daily.share.ShareBuilder;
-import cn.daily.share.ShareUtils;
 import shareInterface.UMengWrapShareListener;
 
 /**
