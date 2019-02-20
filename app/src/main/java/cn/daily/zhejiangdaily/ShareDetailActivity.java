@@ -19,7 +19,6 @@ import com.umeng.socialize.media.UMEmoji;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMMin;
 import com.umeng.socialize.media.UMVideo;
-import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
 import com.umeng.socialize.utils.SocializeUtils;
 
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 
 import cn.daily.share.ShareUtils;
 import cn.daily.share.UmengShare;
-import cn.daily.share.bean.UmengShareBean;
 import cn.daily.zhejiangdaily.constant.Defaultcontent;
 import cn.daily.zhejiangdaily.utils.StyleUtil;
 import cn.daily.zhejiangdaily.views.Item;
@@ -114,14 +112,14 @@ public class ShareDetailActivity extends BaseActivity{
     }
 
     private void shareUmengTest() {
-        UmengShareBean bean = UmengShareBean.getInstance().setImgUri("http://stcbeta.8531.cn/assets/20180509/1525829171241_5af24e339949d8745a229fee.jpeg").setPlatform(share_media);
+//        UmengShareBean bean = UmengShareBean.getInstance().setImgUri("http://stcbeta.8531.cn/assets/20180509/1525829171241_5af24e339949d8745a229fee.jpeg").setPlatform(share_media);
 //        UmengShareBaseUtils utils = UmengShareBaseUtils.getInstance();
 //        utils.startSinglePicShare(bean);
     }
 
     public void shareText() {
 //        ShareUtils.shareText(this, Defaultcontent.text, share_media, shareListener);
-        new UmengShare.TextBuilder(this).text(Defaultcontent.text).platForm(share_media).callBack(callBack).share();
+        new UmengShare.TextBuilder(this).text(Defaultcontent.text).platform(share_media).callback(callBack).share();
     }
 
     public void shareImageLocal() {
@@ -131,15 +129,16 @@ public class ShareDetailActivity extends BaseActivity{
     public void shareImageNet() {
         String url = "http://stcbeta.8531.cn/assets/20180509/1525829171241_5af24e339949d8745a229fee.jpeg";
 //        ShareUtils.shareImageNet(this, url, null, share_media, shareListener);
-        new UmengShare.ImageBuilder(this).image(url).platForm(share_media).callBack(callBack).share();
+        new UmengShare.ImageBuilder(this).platform(share_media).callback(callBack).share();
     }
 
     public void shareUrl() {
-        UMWeb web = new UMWeb(Defaultcontent.url);
-        web.setTitle("This is web title");
-        web.setThumb(new UMImage(this, R.drawable.thumb));
-        web.setDescription("my description");
-        ShareUtils.shareUrl(this, web, share_media, shareListener);
+//        UMWeb web = new UMWeb(Defaultcontent.url);
+//        web.setTitle("This is web title");
+//        web.setThumb(new UMImage(this, R.drawable.thumb));
+//        web.setDescription("my description");
+//        ShareUtils.shareUrl(this, web, share_media, shareListener);
+//        new UmengShare.LinkBuilder(this).url(Defaultcontent.url).image(Defaultcontent.url).platform(share_media).callback(callback).share();
     }
 
     public void shareTextAndImage() {

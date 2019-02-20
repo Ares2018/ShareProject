@@ -20,6 +20,7 @@ import com.umeng.socialize.media.UMusic;
 
 import java.util.List;
 
+import cn.daily.CompatibleUtils.EMUIUtils;
 import shareInterface.UmengShareCallBack;
 
 
@@ -233,7 +234,7 @@ public class ShareUtils {
     }
 
     /**
-     * 检测应用是否安装
+     * 检测应用是否安装,如果是新浪则不检测,因为新浪未安装会打开web页面
      */
     public  static boolean checkInstall(@NonNull Context context, @NonNull SHARE_MEDIA platform, @NonNull UmengShareCallBack callBack) {
         if (context == null || !(context instanceof Activity)) {
@@ -249,35 +250,44 @@ public class ShareUtils {
         }
         return true;
     }
-
-    public static boolean checkPerssion(@NonNull Context context) {
+    /**
+     * qq平台相关及华为手机检测权限
+     * @param context
+     * @param media
+     * @return
+     */
+    public static boolean checkPerssion(@NonNull Context context, @NonNull SHARE_MEDIA media) {
         if (context == null) {
             return false;
         }
-        final boolean[] result = {false};
-        PermissionManager.request(context, new PermissionCallback() {
+        if (EMUIUtils.isEMUI() || media == SHARE_MEDIA.QZONE || media == SHARE_MEDIA.QQ) {
+            final boolean[] result = {false};
+            PermissionManager.request(context, new PermissionCallback() {
+                /**
+                 * 全部授予
+                 * @param isAlready 申请之前已全部默认授权
+                 */
+                @Override
+                public void onGranted(boolean isAlready) {
+                    result[0] = true;
+                }
 
-            /**
-             * 全部授予
-             * @param isAlready 申请之前已全部默认授权
-             */
-            @Override
-            public void onGranted(boolean isAlready) {
-                result[0] = true;
-            }
+                /**
+                 * 拒绝(至少一个权限拒绝)
+                 *
+                 * @param deniedPermissions   被拒绝权限集合(包括不再询问)
+                 * @param neverAskPermissions 被拒绝不再询问权限集合
+                 */
+                @Override
+                public void onDenied(@NonNull List<String> deniedPermissions, @Nullable List<String> neverAskPermissions) {
+                    result[0] = false;
+                }
+            }, Permission.STORAGE_READ, Permission.STORAGE_WRITE);
+            return result[0];
+        } else {
+            return true;
+        }
 
-            /**
-             * 拒绝(至少一个权限拒绝)
-             *
-             * @param deniedPermissions   被拒绝权限集合(包括不再询问)
-             * @param neverAskPermissions 被拒绝不再询问权限集合
-             */
-            @Override
-            public void onDenied(@NonNull List<String> deniedPermissions, @Nullable List<String> neverAskPermissions) {
-                result[0] = false;
-            }
-        }, Permission.STORAGE_READ, Permission.STORAGE_WRITE);
-        return result[0];
     }
 
 }

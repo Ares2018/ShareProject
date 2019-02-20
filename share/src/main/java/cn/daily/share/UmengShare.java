@@ -1,12 +1,12 @@
 package cn.daily.share;
 
-import android.Manifest;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresPermission;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
@@ -15,6 +15,7 @@ import com.umeng.socialize.media.UMusic;
 import java.io.File;
 
 import shareInterface.UMengWrapShareListener;
+import shareInterface.UmengShareCallBack;
 
 /**
  * Date: 2019/1/26 2:59 PM
@@ -37,7 +38,24 @@ public class UmengShare {
         }
 
         @Override
-        @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+        public TextBuilder text(String text) {
+            super.text(text);
+            return this;
+        }
+
+        @Override
+        public TextBuilder platform(@NonNull SHARE_MEDIA platformType) {
+            super.platform(platformType);
+            return this;
+        }
+
+        @Override
+        public TextBuilder callback(@Nullable UmengShareCallBack shareListener) {
+            super.callback(shareListener);
+            return this;
+        }
+
+        @Override
         public void share() {
             super.share();
             // 文本为空处理
@@ -60,8 +78,27 @@ public class UmengShare {
 
         protected UMImage mUMImage;
         protected UMImage mThumb; // 缩略图
-        private UMImage.CompressStyle mCompressStyle = UMImage.CompressStyle.SCALE; // 默认压缩方式,默认为大小压缩，适合普通很大的图
+        protected UMImage.CompressStyle mCompressStyle = UMImage.CompressStyle.SCALE; // 默认压缩方式,默认为大小压缩，适合普通很大的图
         // TODO: 2019/1/29 图片格式
+
+
+        @Override
+        public ImageBuilder text(String text) {
+            super.text(text);
+            return this;
+        }
+
+        @Override
+        public ImageBuilder platform(@NonNull SHARE_MEDIA platformType) {
+            super.platform(platformType);
+            return this;
+        }
+
+        @Override
+        public ImageBuilder callback(@Nullable UmengShareCallBack shareListener) {
+            super.callback(shareListener);
+            return this;
+        }
 
         public ImageBuilder(@NonNull Context context) {
             super(context);
@@ -178,7 +215,6 @@ public class UmengShare {
         }
 
         @Override
-        @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
         public void share() {
             super.share();
             if (mUMImage == null) {
@@ -209,13 +245,32 @@ public class UmengShare {
     /**
      * 分享链接
      */
-    public static class WebBuilder extends ImageBuilder{
+    public static class LinkBuilder extends ImageBuilder{
         private String mUrl;
         private String mDescription;
         private String mTitle;
+        private UMWeb mUMWeb; // 外部直接传递UMWeb的方式来设置
 
-        public WebBuilder(@NonNull Context context) {
+        public LinkBuilder(@NonNull Context context) {
             super(context);
+        }
+
+        @Override
+        public LinkBuilder text(String text) {
+            super.text(text);
+            return this;
+        }
+
+        @Override
+        public LinkBuilder platform(@NonNull SHARE_MEDIA platformType) {
+            super.platform(platformType);
+            return this;
+        }
+
+        @Override
+        public LinkBuilder callback(@Nullable UmengShareCallBack shareListener) {
+            super.callback(shareListener);
+            return this;
         }
 
         /**
@@ -223,7 +278,7 @@ public class UmengShare {
          * @param url
          * @return
          */
-        public WebBuilder url(@NonNull String url) {
+        public LinkBuilder url(@NonNull String url) {
             if (TextUtils.isEmpty(url) || TextUtils.isEmpty(url.trim())) {
                 throw new IllegalArgumentException("Url can not be null or empty");
             }
@@ -236,7 +291,7 @@ public class UmengShare {
          * @param title
          * @return
          */
-        public WebBuilder title(@NonNull String title) {
+        public LinkBuilder title(@NonNull String title) {
             mTitle = title;
             return this;
         }
@@ -246,44 +301,166 @@ public class UmengShare {
          * @param description
          * @return
          */
-        public WebBuilder description(@NonNull String description) {
+        public LinkBuilder description(@NonNull String description) {
             mDescription = description;
             return this;
         }
 
+        /**
+         * 网络图片
+         * @param imageUrl
+         * @return
+         */
+        public LinkBuilder image(@NonNull String imageUrl) {
+            mUMImage = TextUtils.isEmpty(imageUrl) ? null : new UMImage(mContext, imageUrl);
+            return this;
+        }
+
+        /**
+         * 资源文件
+         * @param imageRes
+         * @return
+         */
+        public LinkBuilder image(int imageRes) {
+            mUMImage = imageRes == 0 ? null : new UMImage(mContext, imageRes);
+            return this;
+        }
+
+
+        /**
+         * 本地图片
+         * @param file
+         * @return
+         */
+        public LinkBuilder image(@NonNull File file) {
+            mUMImage = (file == null || file.length() == 0) ? null : new UMImage(mContext, file);
+            return this;
+        }
+
+        /**
+         * bitmap
+         * @param bitmap
+         * @return
+         */
+        public LinkBuilder image(@NonNull Bitmap bitmap) {
+            mUMImage = bitmap == null ? null : new UMImage(mContext, bitmap);
+            return this;
+        }
+
+        /**
+         * 字节流
+         * @param imgBytes
+         * @return
+         */
+        public LinkBuilder image(@NonNull byte[] imgBytes) {
+            mUMImage = (imgBytes == null || imgBytes.length == 0) ? null : new UMImage(mContext, imgBytes);
+            return this;
+        }
+
+        /**
+         * 直接设置umImage
+         * @param umImage
+         * @return
+         */
+        public LinkBuilder image(UMImage umImage) {
+            mUMImage = umImage;
+            if (mUMImage != null) {
+                mCompressStyle = mUMImage.compressStyle;
+            }
+            return this;
+        }
+
+        /**
+         * 缩略图 网络图片
+         * @param imageUrl
+         * @return
+         */
+        public LinkBuilder thumb(String imageUrl) {
+            mThumb = TextUtils.isEmpty(imageUrl) ? null : new UMImage(mContext, imageUrl);
+            return this;
+        }
+
+        public LinkBuilder thumb(int imageRes) {
+            mThumb = imageRes == 0 ? null : new UMImage(mContext, imageRes);
+            return this;
+        }
+
+        public LinkBuilder thumb(@NonNull File file) {
+            mThumb = (file == null || file.length() == 0) ? null : new UMImage(mContext, file);
+            return this;
+        }
+
+        public LinkBuilder thumb(@NonNull Bitmap bitmap) {
+            mThumb = bitmap == null ? null : new UMImage(mContext, bitmap);
+            return this;
+        }
+
+        public LinkBuilder thumb(@NonNull byte[] imgBytes) {
+            mThumb = (imgBytes == null || imgBytes.length == 0) ? null : new UMImage(mContext, imgBytes);
+            return this;
+        }
+
+        public LinkBuilder thumb(UMImage umImage) {
+            mThumb = umImage;
+            return this;
+        }
+
+        public LinkBuilder web(UMWeb umWeb) {
+            mUMWeb = umWeb;
+            if (mUMWeb != null) {
+                mTitle = mUMWeb.getTitle();
+                mDescription = mUMWeb.getDescription();
+                mThumb = mUMWeb.getThumbImage();
+            }
+            return this;
+        }
+
+        /**
+         * 压缩方式
+         * @param style //大小压缩，默认为大小压缩，适合普通很大的图 大小压缩，默认为大小压缩，适合普通很大的图
+         *              UMImage.CompressStyle.QUALITY;//质量压缩，适合长图的分享
+         * @return
+         */
+        public LinkBuilder compressStyle(UMImage.CompressStyle style) {
+            mCompressStyle = style;
+            return this;
+        }
+
+
         @Override
-        @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
         public void share() {
             // 安装包检测
             if (!ShareUtils.checkInstall(mContext, mShareMedia, mUmengShareCallBack)) {
                 return;
             }
             // 权限检测
-            if (!ShareUtils.checkPerssion(mContext)) {
+            if (!ShareUtils.checkPerssion(mContext, mShareMedia)) {
                 if (mUmengShareCallBack != null) {
                     mUmengShareCallBack.onPermissonDeny();
                 }
                 return;
             }
-            if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {
-                if (mUmengShareCallBack != null) {
-                    mUmengShareCallBack.onWebUrlEmpty(mShareMedia);
+            if (mUMWeb == null) {
+                if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {
+                    if (mUmengShareCallBack != null) {
+                        mUmengShareCallBack.onWebUrlEmpty(mShareMedia);
+                    }
                 }
-            } else {
-                UMWeb umWeb = new UMWeb(mUrl);
-                umWeb.setTitle(mTitle);
-                umWeb.setDescription(mDescription);
-                // 缩略图设置
-                if (mThumb != null) {
-                    umWeb.setThumb(mThumb);
-                } else if (mUMImage != null) {
-                    umWeb.setThumb(mUMImage);
-                }
-                mShareAction.withMedia(umWeb);
-                mShareAction.setPlatform(mShareMedia)
-                        .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
-                        .share();
+                mUMWeb = new UMWeb(mUrl);
             }
+            // 外部直接传UMWeb及自己构造UMWeb都要走下面代码
+            mUMWeb.setTitle(mTitle);
+            mUMWeb.setDescription(mDescription);
+            // 缩略图设置
+            if (mThumb != null) {
+                mUMWeb.setThumb(mThumb);
+            } else if (mUMImage != null) {
+                mUMWeb.setThumb(mUMImage);
+            }
+            mShareAction.withMedia(mUMWeb);
+            mShareAction.setPlatform(mShareMedia)
+                    .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
+                    .share();
         }
     }
 
@@ -300,6 +477,24 @@ public class UmengShare {
 
         public VideoBuilder(@NonNull Context context) {
             super(context);
+        }
+
+        @Override
+        public VideoBuilder text(String text) {
+            super.text(text);
+            return this;
+        }
+
+        @Override
+        public VideoBuilder platform(@NonNull SHARE_MEDIA platformType) {
+            super.platform(platformType);
+            return this;
+        }
+
+        @Override
+        public VideoBuilder callback(@Nullable UmengShareCallBack shareListener) {
+            super.callback(shareListener);
+            return this;
         }
 
         /**
@@ -366,7 +561,6 @@ public class UmengShare {
         }
 
         @Override
-        @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
         public void share() {
             super.share();
             if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {
@@ -402,6 +596,24 @@ public class UmengShare {
 
         public MusicBuilder(@NonNull Context context) {
             super(context);
+        }
+
+        @Override
+        public MusicBuilder text(String text) {
+            super.text(text);
+            return this;
+        }
+
+        @Override
+        public MusicBuilder platform(@NonNull SHARE_MEDIA platformType) {
+            super.platform(platformType);
+            return this;
+        }
+
+        @Override
+        public MusicBuilder callback(@Nullable UmengShareCallBack shareListener) {
+            super.callback(shareListener);
+            return this;
         }
 
         /**
@@ -481,7 +693,6 @@ public class UmengShare {
         }
 
         @Override
-        @RequiresPermission(allOf = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
         public void share() {
             super.share();
             if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {

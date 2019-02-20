@@ -30,12 +30,12 @@ public class ShareBuilder {
         mShareAction = new ShareAction((Activity) mContext);
     }
 
-    public ShareBuilder platForm(@NonNull SHARE_MEDIA media) {
+    public ShareBuilder platform(@NonNull SHARE_MEDIA media) {
         mShareMedia = media;
         return this;
     }
 
-    public ShareBuilder callBack(@NonNull UmengShareCallBack callBack) {
+    public ShareBuilder callback(@NonNull UmengShareCallBack callBack) {
         this.mUmengShareCallBack = callBack;
         return this;
     }
@@ -49,7 +49,7 @@ public class ShareBuilder {
             return;
         }
         // 权限检测
-        if (!ShareUtils.checkPerssion(mContext)) {
+        if (!ShareUtils.checkPerssion(mContext, mShareMedia)) {
             if (mUmengShareCallBack != null) {
                 mUmengShareCallBack.onPermissonDeny();
             }
