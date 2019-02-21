@@ -27,3 +27,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//ext{
+//    UMENG_APP_KEY="535879d256240b8965030920"
+//    QQ_APP_ID="101096646"
+//    _packagename="com.zhejiangdailya"
+//}

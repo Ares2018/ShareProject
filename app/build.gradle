@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.zhejiangdaily"
@@ -34,9 +35,6 @@ android {
                 signingConfig signingConfigs.release
             }
 
-/*            manifestPlaceholders = [
-                    UMENG_APPKEY: "535879d256240b8965030920",
-            ]*/
 //            manifestPlaceholders = [
 //                    "UMENG_APP_KEY": UMENG_APP_KEY,
 //                    "QQ_APP_ID"    : QQ_APP_ID,
@@ -53,9 +51,6 @@ android {
                 signingConfig signingConfigs.release
             }
 
-/*            manifestPlaceholders = [
-                    UMENG_APPKEY: "535879d256240b8965030920",
-            ]*/
 //            manifestPlaceholders = [
 //                    "UMENG_APP_KEY": UMENG_APP_KEY,
 //                    "QQ_APP_ID"    : QQ_APP_ID,
@@ -74,3 +69,4 @@ dependencies {
     api 'cn.daily.android:commonutils:0.0.5-SNAPSHOT'
 //    implementation 'cn.daily.android:share:0.0.0.1-SNAPSHOT'
 }
+
