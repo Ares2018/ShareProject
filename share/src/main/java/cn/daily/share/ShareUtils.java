@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.aliya.permission.Permission;
-import com.aliya.permission.PermissionCallback;
-import com.aliya.permission.PermissionManager;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -17,6 +13,10 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
+import com.zjrb.core.permission.AbsPermCallBack;
+import com.zjrb.core.permission.IPermissionOperate;
+import com.zjrb.core.permission.Permission;
+import com.zjrb.core.permission.PermissionManager;
 
 import java.util.List;
 
@@ -34,8 +34,9 @@ public class ShareUtils {
 
     /**
      * 分享链接 标题,摘要,缩略图及跳转链接等信息通过自己构造UMWeb
+     *
      * @param activity
-     * @param umWeb 可通过构造umWeb设置标题,摘要,缩略图
+     * @param umWeb         可通过构造umWeb设置标题,摘要,缩略图
      * @param share_media
      * @param shareListener
      */
@@ -51,11 +52,12 @@ public class ShareUtils {
 
     /**
      * 分享链接  有标题,摘要
+     *
      * @param activity
-     * @param url 分享链接
-     * @param title 标题
-     * @param desc 摘要
-     * @param thumb 缩略图  不需要传null
+     * @param url           分享链接
+     * @param title         标题
+     * @param desc          摘要
+     * @param thumb         缩略图  不需要传null
      * @param share_media
      * @param shareListener
      */
@@ -76,9 +78,10 @@ public class ShareUtils {
 
     /**
      * 分享图片
+     *
      * @param activity
      * @param umImage
-     * @param thumb 缩略图  不需要传null
+     * @param thumb         缩略图  不需要传null
      * @param share_media
      * @param shareListener
      */
@@ -100,7 +103,7 @@ public class ShareUtils {
      *
      * @param activity
      * @param resId
-     * @param thumb 缩略图  不需要传null
+     * @param thumb         缩略图  不需要传null
      * @param share_media
      * @param shareListener
      */
@@ -117,7 +120,7 @@ public class ShareUtils {
      *
      * @param activity
      * @param url
-     * @param thumb 缩略图  不需要传null
+     * @param thumb         缩略图  不需要传null
      * @param share_media
      * @param shareListener
      */
@@ -132,9 +135,10 @@ public class ShareUtils {
 
     /**
      * 图片分享,bitmap
+     *
      * @param activity
      * @param bitmap
-     * @param thumb 缩略图  不需要传null
+     * @param thumb         缩略图  不需要传null
      * @param share_media
      * @param shareListener
      */
@@ -215,7 +219,7 @@ public class ShareUtils {
      * @param activity
      * @param text
      * @param resId
-     * @param thumb 缩略图  不需要传null
+     * @param thumb         缩略图  不需要传null
      * @param share_media
      * @param shareListener
      */
@@ -236,7 +240,7 @@ public class ShareUtils {
     /**
      * 检测应用是否安装,如果是新浪则不检测,因为新浪未安装会打开web页面
      */
-    public  static boolean checkInstall(@NonNull Context context, @NonNull SHARE_MEDIA platform, @NonNull UmengShareCallBack callBack) {
+    public static boolean checkInstall(@NonNull Context context, @NonNull SHARE_MEDIA platform, @NonNull UmengShareCallBack callBack) {
         if (context == null || !(context instanceof Activity)) {
             return false;
         }
@@ -250,8 +254,10 @@ public class ShareUtils {
         }
         return true;
     }
+
     /**
      * qq平台相关及华为手机检测权限
+     *
      * @param context
      * @param media
      * @return
@@ -262,7 +268,7 @@ public class ShareUtils {
         }
         if (EMUIUtils.isEMUI() || media == SHARE_MEDIA.QZONE || media == SHARE_MEDIA.QQ) {
             final boolean[] result = {false};
-            PermissionManager.request(context, new PermissionCallback() {
+            PermissionManager.get().request((IPermissionOperate) context, new AbsPermCallBack() {
                 /**
                  * 全部授予
                  * @param isAlready 申请之前已全部默认授权
@@ -275,14 +281,13 @@ public class ShareUtils {
                 /**
                  * 拒绝(至少一个权限拒绝)
                  *
-                 * @param deniedPermissions   被拒绝权限集合(包括不再询问)
-                 * @param neverAskPermissions 被拒绝不再询问权限集合
+                 * @param neverAskPerms 被拒绝不再询问权限集合
                  */
                 @Override
-                public void onDenied(@NonNull List<String> deniedPermissions, @Nullable List<String> neverAskPermissions) {
+                public void onDenied(List<String> neverAskPerms) {
                     result[0] = false;
                 }
-            }, Permission.STORAGE_READ, Permission.STORAGE_WRITE);
+            }, Permission.STORAGE_READE, Permission.STORAGE_WRITE);
             return result[0];
         } else {
             return true;
