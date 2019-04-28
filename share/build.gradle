@@ -54,7 +54,7 @@ dependencies {
     api 'com.umeng.sdk:umeng-share-qq-simplify:6.9.3'
     api 'com.umeng.sdk:umeng-share-sina-simplify:6.9.3'
     api 'com.umeng.sdk:umeng-social-tool:6.9.3'
-    implementation ('cn.daily.android:common-core:0.0.6.15') {
-        exclude group: 'com.android.support'
-    }
+//    implementation ('cn.daily.android:common-core:0.0.6.15') {
+//        exclude group: 'com.android.support'
+//    }
 }

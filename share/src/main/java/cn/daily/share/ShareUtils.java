@@ -13,14 +13,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
-import com.zjrb.core.permission.AbsPermCallBack;
-import com.zjrb.core.permission.IPermissionOperate;
-import com.zjrb.core.permission.Permission;
-import com.zjrb.core.permission.PermissionManager;
 
-import java.util.List;
-
-import cn.daily.CompatibleUtils.EMUIUtils;
 import shareInterface.UmengShareCallBack;
 
 
@@ -256,43 +249,48 @@ public class ShareUtils {
     }
 
     /**
-     * qq平台相关及华为手机检测权限
+     * qq平台相关及华为手机权限处理
      *
      * @param context
      * @param media
-     * @return
+     * @return 返回值代表读写权限是否被默认授权
      */
-    public static boolean checkPerssion(@NonNull Context context, @NonNull SHARE_MEDIA media) {
-        if (context == null) {
-            return false;
-        }
-        if (EMUIUtils.isEMUI() || media == SHARE_MEDIA.QZONE || media == SHARE_MEDIA.QQ) {
-            final boolean[] result = {false};
-            PermissionManager.get().request((IPermissionOperate) context, new AbsPermCallBack() {
-                /**
-                 * 全部授予
-                 * @param isAlready 申请之前已全部默认授权
-                 */
-                @Override
-                public void onGranted(boolean isAlready) {
-                    result[0] = true;
-                }
-
-                /**
-                 * 拒绝(至少一个权限拒绝)
-                 *
-                 * @param neverAskPerms 被拒绝不再询问权限集合
-                 */
-                @Override
-                public void onDenied(List<String> neverAskPerms) {
-                    result[0] = false;
-                }
-            }, Permission.STORAGE_READE, Permission.STORAGE_WRITE);
-            return result[0];
-        } else {
-            return true;
-        }
-
-    }
+//    public static boolean handlePermission(@NonNull Context context, @NonNull SHARE_MEDIA media, final UmengShareCallBack umengShareCallBack) {
+//        if (context == null) {
+//            return false;
+//        }
+//        if (EMUIUtils.isEMUI() || media == SHARE_MEDIA.QZONE || media == SHARE_MEDIA.QQ) {
+//            return PermissionManager.get().request((IPermissionOperate) context, new AbsPermCallBack() {
+//                /**
+//                 * 全部授予
+//                 * @param isAlready 申请之前已全部默认授权
+//                 */
+//                @Override
+//                public void onGranted(boolean isAlready) {
+//                    if (umengShareCallBack != null) {
+//                        umengShareCallBack.onPermissonAllow();
+//                    }
+//                }
+//
+//                /**
+//                 * 拒绝(至少一个权限拒绝)
+//                 *
+//                 * @param neverAskPerms 被拒绝不再询问权限集合
+//                 */
+//                @Override
+//                public void onDenied(List<String> neverAskPerms) {
+//                    if (umengShareCallBack != null) {
+//                        umengShareCallBack.onPermissonDeny();
+//                    }
+//                }
+//            }, Permission.STORAGE_READE, Permission.STORAGE_WRITE);
+//        } else {
+//            if (umengShareCallBack != null) { // 其他情况默认允许权限
+//                umengShareCallBack.onPermissonAllow();
+//            }
+//            return true;
+//        }
+//
+//    }
 
 }

@@ -46,11 +46,6 @@ public interface UmengShareCallBack {
     void onInstallOut(SHARE_MEDIA platform);
 
     /**
-     * 权限被拒绝
-     */
-    void onPermissonDeny(); // 权限被拒绝
-
-    /**
      * 分享文本为空
      */
     void onTextEmpty(SHARE_MEDIA share_media, String text);

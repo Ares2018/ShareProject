@@ -57,16 +57,13 @@ public class UmengShare {
 
         @Override
         public void share() {
-            super.share();
             // 文本为空处理
             if (TextUtils.isEmpty(mText)) {
                 mUmengShareCallBack.onTextEmpty(mShareMedia, mText);
             } else {
                 mShareAction.withText(mText);
+                super.share();
             }
-            mShareAction.setPlatform(mShareMedia)
-                    .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
-                    .share();
         }
     }
 
@@ -216,7 +213,6 @@ public class UmengShare {
 
         @Override
         public void share() {
-            super.share();
             if (mUMImage == null) {
                 if (mUmengShareCallBack != null) {
                     mUmengShareCallBack.onImageEmpty(mShareMedia);
@@ -232,13 +228,12 @@ public class UmengShare {
                     mUMImage.setThumb(mUMImage);
                 }
                 mShareAction.withMedia(mUMImage);
+                if (!TextUtils.isEmpty(mText)) { // 图文分享
+                    mShareAction.withText(mText);
+                }
+                super.share();
             }
-            if (!TextUtils.isEmpty(mText)) { // 图文分享
-                mShareAction.withText(mText);
-            }
-            mShareAction.setPlatform(mShareMedia)
-                    .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
-                    .share();
+
         }
     }
 
@@ -429,22 +424,12 @@ public class UmengShare {
 
         @Override
         public void share() {
-            // 安装包检测
-            if (!ShareUtils.checkInstall(mContext, mShareMedia, mUmengShareCallBack)) {
-                return;
-            }
-            // 权限检测
-            if (!ShareUtils.checkPerssion(mContext, mShareMedia)) {
-                if (mUmengShareCallBack != null) {
-                    mUmengShareCallBack.onPermissonDeny();
-                }
-                return;
-            }
             if (mUMWeb == null) {
                 if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {
                     if (mUmengShareCallBack != null) {
                         mUmengShareCallBack.onWebUrlEmpty(mShareMedia);
                     }
+                    return;
                 }
                 mUMWeb = new UMWeb(mUrl);
             }
@@ -562,7 +547,6 @@ public class UmengShare {
 
         @Override
         public void share() {
-            super.share();
             if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {
                 if (mUmengShareCallBack != null) {
                     mUmengShareCallBack.onShareEmpty(mShareMedia);
@@ -575,9 +559,7 @@ public class UmengShare {
                 }
                 video.setDescription(mDescription);//视频的描述
                 mShareAction.withMedia(video);
-                mShareAction.setPlatform(mShareMedia)
-                        .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
-                        .share();
+                super.share();
             }
 
         }
@@ -694,7 +676,6 @@ public class UmengShare {
 
         @Override
         public void share() {
-            super.share();
             if (TextUtils.isEmpty(mUrl) || TextUtils.isEmpty(mUrl.trim())) {
                 if (mUmengShareCallBack != null) {
                     mUmengShareCallBack.onShareEmpty(mShareMedia);
@@ -708,9 +689,7 @@ public class UmengShare {
                 music.setDescription(mDescription);//音乐的描述
                 music.setmTargetUrl(mTargetUrl);//音乐的跳转链接
                 mShareAction.withMedia(music);
-                mShareAction.setPlatform(mShareMedia)
-                        .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
-                        .share();
+                super.share();
             }
 
         }

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import shareInterface.UMengWrapShareListener;
 import shareInterface.UmengShareCallBack;
 
 /**
@@ -41,21 +42,18 @@ public class ShareBuilder {
     }
 
     /**
-     * 安装包及权限检测
+     * 安装包检测
      */
     public void share() {
         // 安装包检测
         if (!ShareUtils.checkInstall(mContext, mShareMedia, mUmengShareCallBack)) {
             return;
         }
-        // 权限检测
-        if (!ShareUtils.checkPerssion(mContext, mShareMedia)) {
-            if (mUmengShareCallBack != null) {
-                mUmengShareCallBack.onPermissonDeny();
-            }
-            return;
-        }
+        mShareAction.setPlatform(mShareMedia)
+                .setCallback(new UMengWrapShareListener(mUmengShareCallBack))
+                .share();
     }
+
 
     public ShareBuilder text(String text) {
         this.mText = text;
