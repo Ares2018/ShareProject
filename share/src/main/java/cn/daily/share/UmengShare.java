@@ -433,6 +433,9 @@ public class UmengShare {
                 }
                 mUMWeb = new UMWeb(mUrl);
             }
+            if (!ShareUtils.checkInstall(mContext, mShareMedia, mUmengShareCallBack)) { // 这里继承的Imagebuilder,调用super.share会走image的方法,所以这里单独判断是否安装
+                return;
+            }
             // 外部直接传UMWeb及自己构造UMWeb都要走下面代码
             mUMWeb.setTitle(mTitle);
             mUMWeb.setDescription(mDescription);
